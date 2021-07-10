@@ -1,6 +1,7 @@
 package com.houston.userauth.entity;
 
 import java.util.Date;
+import java.util.Objects;
 
 import javax.persistence.*;
 
@@ -68,6 +69,31 @@ public class UserEntity {
         this.dateOfBirth = dateOfBirth;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(userId, that.userId) && Objects.equals(userName, that.userName) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(dateOfBirth, that.dateOfBirth);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userName, firstName, lastName, email, password, dateOfBirth);
+    }
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
+    }
 
     public Long getUserId() {
         return userId;

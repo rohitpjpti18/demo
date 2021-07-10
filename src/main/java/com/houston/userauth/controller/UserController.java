@@ -27,6 +27,8 @@ public class UserController {
         User user = new User();
         userRepository.saveAndFlush(newestUser);
 
+
+
         return new ResponseEntity<User>(user, HttpStatus.ACCEPTED);
     }
 }

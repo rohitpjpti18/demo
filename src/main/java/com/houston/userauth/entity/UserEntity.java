@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.*;
 
+import com.houston.userauth.model.GenderType;
 import com.houston.userauth.model.User;
 
 @Entity
@@ -35,6 +36,9 @@ public class UserEntity {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
+    @Enumerated(EnumType.STRING)
+    private GenderType gender;
+
     public UserEntity() {
         super();
     }
@@ -48,38 +52,30 @@ public class UserEntity {
         this.email = user.getEmail();
         this.password = user.getPassword();
         this.dateOfBirth = user.getDateOfBirth();
+        this.gender = user.getGender();
     }
 
     public UserEntity(
-        Long userId, 
-        String userName, 
-        String firstName, 
-        String lastName, 
-        String email, 
-        String password,
-        Date dateOfBirth
+            String userName,
+            String firstName,
+            String lastName,
+            String email,
+            String password,
+            Date dateOfBirth,
+            GenderType gender
     ) {
         super();
-        this.userId = userId;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return Objects.equals(userId, that.userId) && Objects.equals(userName, that.userName) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(dateOfBirth, that.dateOfBirth);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, userName, firstName, lastName, email, password, dateOfBirth);
+    public GenderType getGender() {
+        return gender;
     }
 
     @Override
@@ -92,7 +88,32 @@ public class UserEntity {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(userId, that.userId)
+                && Objects.equals(userName, that.userName)
+                && Objects.equals(firstName, that.firstName)
+                && Objects.equals(lastName, that.lastName)
+                && Objects.equals(email, that.email)
+                && Objects.equals(password, that.password)
+                && Objects.equals(dateOfBirth, that.dateOfBirth)
+                && gender == that.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userName, firstName, lastName, email, password, dateOfBirth, gender);
+    }
+
+    public void setGender(GenderType gender) {
+        this.gender = gender;
     }
 
     public Long getUserId() {

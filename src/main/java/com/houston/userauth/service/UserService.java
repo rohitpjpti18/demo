@@ -1,5 +1,6 @@
 package com.houston.userauth.service;
 
+import com.houston.userauth.entity.UserEntity;
 import com.houston.userauth.model.User;
 import com.houston.userauth.repository.UserRepository;
 
@@ -12,7 +13,9 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
     
-    public String registerUser(User user){
-        return "Done!"; 
+    public User registerUser(User user){
+        UserEntity newUser = new UserEntity(user);
+
+        return new User(userRepository.saveAndFlush(newUser));
     }
 }

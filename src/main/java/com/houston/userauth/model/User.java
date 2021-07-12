@@ -1,6 +1,9 @@
 package com.houston.userauth.model;
 
+import com.houston.userauth.entity.UserEntity;
+
 import java.util.Date;
+import java.util.Objects;
 
 public class User {
     private Long userId;
@@ -10,100 +13,82 @@ public class User {
     private String email;
     private String password;
     private Date dateOfBirth;
+    private GenderType gender;
     
     public User() {
         super();
     }
 
     public User(
-        Long userId, 
-        String userName, 
-        String firstName, 
-        String lastName, 
-        String email, 
-        String password,
-        Date dateOfBirth
+            String userName,
+            String firstName,
+            String lastName,
+            String email,
+            String password,
+            Date dateOfBirth,
+            GenderType gender
     ) {
-        super();
-        this.userId = userId;
         this.userName = userName;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
     }
 
-    
+    public User(UserEntity user){
+        this.userId = user.getUserId();
+        this.userName = user.getUserName();
+        this.firstName = user.getFirstName();
+        this.lastName = user.getLastName();
+        this.email = user.getEmail();
+        this.password = user.getPassword();
+        this.dateOfBirth = user.getDateOfBirth();
+        this.gender = user.getGender();
+    }
 
     @Override
     public String toString() {
-        return "User [dateOfBirth=" + dateOfBirth + ", email=" + email + ", firstName=" + firstName + ", lastName="
-                + lastName + ", password=" + password + ", userId=" + userId + ", userName=" + userName + "]";
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                ", gender=" + gender +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(userId, user.userId)
+                && Objects.equals(userName, user.userName)
+                && Objects.equals(firstName, user.firstName)
+                && Objects.equals(lastName, user.lastName)
+                && Objects.equals(email, user.email)
+                && Objects.equals(password, user.password)
+                && Objects.equals(dateOfBirth, user.dateOfBirth)
+                && gender == user.gender;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((dateOfBirth == null) ? 0 : dateOfBirth.hashCode());
-        result = prime * result + ((email == null) ? 0 : email.hashCode());
-        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-        result = prime * result + ((password == null) ? 0 : password.hashCode());
-        result = prime * result + ((userId == null) ? 0 : userId.hashCode());
-        result = prime * result + ((userName == null) ? 0 : userName.hashCode());
-        return result;
+        return Objects.hash(userId, userName, firstName, lastName, email, password, dateOfBirth, gender);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (dateOfBirth == null) {
-            if (other.dateOfBirth != null)
-                return false;
-        } else if (!dateOfBirth.equals(other.dateOfBirth))
-            return false;
-        if (email == null) {
-            if (other.email != null)
-                return false;
-        } else if (!email.equals(other.email))
-            return false;
-        if (firstName == null) {
-            if (other.firstName != null)
-                return false;
-        } else if (!firstName.equals(other.firstName))
-            return false;
-        if (lastName == null) {
-            if (other.lastName != null)
-                return false;
-        } else if (!lastName.equals(other.lastName))
-            return false;
-        if (password == null) {
-            if (other.password != null)
-                return false;
-        } else if (!password.equals(other.password))
-            return false;
-        if (userId == null) {
-            if (other.userId != null)
-                return false;
-        } else if (!userId.equals(other.userId))
-            return false;
-        if (userName == null) {
-            if (other.userName != null)
-                return false;
-        } else if (!userName.equals(other.userName))
-            return false;
-        return true;
+    public GenderType getGender() {
+        return gender;
     }
 
-    
+    public void setGender(GenderType gender) {
+        this.gender = gender;
+    }
 
     public Date getDateOfBirth() {
         return dateOfBirth;

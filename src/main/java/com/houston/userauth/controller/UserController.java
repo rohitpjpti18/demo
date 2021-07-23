@@ -2,6 +2,7 @@ package com.houston.userauth.controller;
 
 import com.houston.userauth.entity.UserEntity;
 import com.houston.userauth.model.User;
+import com.houston.userauth.model.UserRole;
 import com.houston.userauth.repository.UserRepository;
 
 import com.houston.userauth.service.UserService;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/user-auth/api/v1/user")
+@RequestMapping("")
 public class UserController {
     @Autowired
     UserService userService;
@@ -28,4 +29,12 @@ public class UserController {
 
         return new ResponseEntity<User>(registeredUser, HttpStatus.ACCEPTED);
     }
+
+    @PostMapping("/create-role")
+    public ResponseEntity<UserRole> createRoleHandler(@RequestBody UserRole userRole){
+        UserRole createdUserRole = userService.createRole(userRole);
+
+        return new ResponseEntity<UserRole>(createdUserRole, HttpStatus.ACCEPTED);
+    }
+
 }

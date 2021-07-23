@@ -17,7 +17,11 @@ public class UserEntity {
     @Column(name="USER_ID")
     private Long userId;
 
-    @Column(name="USER_NAME")
+    @ManyToOne(cascade = CascadeType.REMOVE)
+    @JoinColumn( name="userRoleId")
+    private UserRoleEntity userRole;
+
+    @Column(name="USER_NAME", unique = true, nullable=false)
     private String userName;
 
     @Column(name="FIRST_NAME")
@@ -26,7 +30,7 @@ public class UserEntity {
     @Column(name="LAST_NAME")
     private String lastName;
 
-    @Column(name="EMAIL")
+    @Column(name="EMAIL", nullable = true)
     private String email;
 
     @Column(name="PASSWORD")
@@ -36,6 +40,7 @@ public class UserEntity {
     @Temporal(TemporalType.DATE)
     private Date dateOfBirth;
 
+    @Column(name="GENDER")
     @Enumerated(EnumType.STRING)
     private GenderType gender;
 
@@ -53,6 +58,7 @@ public class UserEntity {
         this.password = user.getPassword();
         this.dateOfBirth = user.getDateOfBirth();
         this.gender = user.getGender();
+        this.userRole = new UserRoleEntity(user.getUserRole());
     }
 
     public UserEntity(
@@ -74,14 +80,24 @@ public class UserEntity {
         this.gender = gender;
     }
 
-    public GenderType getGender() {
-        return gender;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserEntity that = (UserEntity) o;
+        return Objects.equals(userId, that.userId) && Objects.equals(userRole, that.userRole) && Objects.equals(userName, that.userName) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(dateOfBirth, that.dateOfBirth) && gender == that.gender;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, userRole, userName, firstName, lastName, email, password, dateOfBirth, gender);
     }
 
     @Override
     public String toString() {
         return "UserEntity{" +
                 "userId=" + userId +
+                ", userRole=" + userRole +
                 ", userName='" + userName + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -92,24 +108,16 @@ public class UserEntity {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        UserEntity that = (UserEntity) o;
-        return Objects.equals(userId, that.userId)
-                && Objects.equals(userName, that.userName)
-                && Objects.equals(firstName, that.firstName)
-                && Objects.equals(lastName, that.lastName)
-                && Objects.equals(email, that.email)
-                && Objects.equals(password, that.password)
-                && Objects.equals(dateOfBirth, that.dateOfBirth)
-                && gender == that.gender;
+    public GenderType getGender() {
+        return gender;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(userId, userName, firstName, lastName, email, password, dateOfBirth, gender);
+    public UserRoleEntity getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRoleEntity userRole) {
+        this.userRole = userRole;
     }
 
     public void setGender(GenderType gender) {

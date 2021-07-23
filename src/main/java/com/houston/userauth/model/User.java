@@ -7,6 +7,7 @@ import java.util.Objects;
 
 public class User {
     private Long userId;
+    private UserRole userRole;
     private String userName;
     private String firstName;
     private String lastName;
@@ -20,6 +21,7 @@ public class User {
     }
 
     public User(
+            UserRole userRole,
             String userName,
             String firstName,
             String lastName,
@@ -29,6 +31,7 @@ public class User {
             GenderType gender
     ) {
         this.userName = userName;
+        this.userRole = userRole;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -80,6 +83,14 @@ public class User {
     @Override
     public int hashCode() {
         return Objects.hash(userId, userName, firstName, lastName, email, password, dateOfBirth, gender);
+    }
+
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
     }
 
     public GenderType getGender() {

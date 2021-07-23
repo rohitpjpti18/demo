@@ -15,7 +15,10 @@ public class ContactEntity {
     @JoinColumn(name="userId", unique=true)
     private UserEntity user;
 
-    @Column(name="PRIMARY_PHONE_NUMBER")
+    @Column(name="EMAIL", unique=true)
+    private String email;
+
+    @Column(name="PRIMARY_PHONE_NUMBER", unique=true, nullable=false)
     private String primaryPhoneNo;
 
     @Column(name="SECONDARY_PHONE_NUMBER")
